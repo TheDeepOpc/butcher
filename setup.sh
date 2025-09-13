@@ -19,6 +19,7 @@ declare -A STRINGS_EN=(
     [uzbek]="Uzbek"
     [main_menu]="Main Menu - Penetration Testing Tools"
     [web_pentest]="Web Pentest"
+        [physical_pentest]="Physical Pentest"
     [subdomain_enum]="Subdomain Enumeration"
     [port_scan]="Port Scanning"
     [vuln_scan]="Vulnerability Scanning"
@@ -39,6 +40,7 @@ declare -A STRINGS_RU=(
     [main_menu]="Главное меню - Инструменты для пентестинга"
     [web_pentest]="Веб Пентест"
     [subdomain_enum]="Анализ субдоменов"
+            [physical_pentest]="Physical Pentest"
     [port_scan]="Сканирование портов"
     [vuln_scan]="Поиск уязвимостей"
     [exit]="Выход"
@@ -60,6 +62,8 @@ declare -A STRINGS_UZ=(
     [subdomain_enum]="Subdomain aniqlash"
     [port_scan]="Port skanerlash"
     [vuln_scan]="Zaifliklarni aniqlash"
+            [physical_pentest]="Physical Pentest"
+
     [exit]="Chiqish"
     [invalid_choice]="Noto'g'ri tanlov. Qaytadan urining."
     [enter_target]="Maqsadli domenni kiriting (example.com):"
@@ -262,6 +266,22 @@ web_pentest_menu() {
         esac
     done
 }
+physical_pentest() {
+    clear; show_banner
+    echo -e "${CYAN}$(get_string "physical_pentest")${NC}\n"
+
+    script_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+    phys_script="${script_dir}/physical.sh"
+
+    if [[ -x "$phys_script" ]]; then
+        # LANG_CHOICE ni argument sifatida uzatamiz
+        bash "$phys_script" "$LANG_CHOICE"
+    else
+        echo -e "${RED}Physical Pentest script not found or not executable:${NC} $phys_script"
+    fi
+
+    read -e -p "$(whoami)>_ Press Enter to continue... " dummy
+}
 
 # ================= FUNC: MAIN MENU =================
 main_menu() {
@@ -269,12 +289,14 @@ main_menu() {
         clear; show_banner
         echo -e "${CYAN}$(get_string "main_menu")${NC}\n"
         echo -e "${WHITE}1)${NC} $(get_string "web_pentest")"
-        echo -e "${WHITE}2)${NC} $(get_string "exit")"
-        read -e -p "$(whoami)>_ Enter choice [1-2]: " choice
+        echo -e "${WHITE}2)${NC} $(get_string "physical_pentest")"
+        echo -e "${WHITE}3)${NC} $(get_string "exit")"
+        read -e -p "$(whoami)>_ Enter choice [1-3]: " choice
 
         case $choice in
             1) web_pentest_menu ;;
-            2) echo -e "${GREEN}Exiting...${NC}"; exit 0 ;;
+            2) physical_pentest ;;
+            3) echo -e "${GREEN}Exiting...${NC}"; exit 0 ;;
             *) echo -e "${RED}$(get_string invalid_choice)${NC}"; sleep 2 ;;
         esac
     done

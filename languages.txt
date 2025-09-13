@@ -1,0 +1,32 @@
+current|Current directory|Hozirgi joy|Текущая папка
+empty|Empty directory|Bo‘sh katalog|Папка пуста
+choose|Choose number|Tanlov raqamini kiriting|Введите номер
+copied|copied to|nusxalandi ->|скопировано в
+number_err|Enter a valid number|Raqam kiriting|Введите число
+start_notfound|Start directory not found|Boshlang‘ich katalog topilmadi|Начальная папка не найдена
+welcome|Welcome to Penetration Testing Toolkit|Penetration Testing vositalar to'plamiga xush kelibsiz|Добро пожаловать в набор инструментов для пентестинга
+select_lang|Select Language:|Tilni tanlang:|Выберите язык:
+english|English|Inglizcha|Английский
+russian|Russian|Ruscha|Русский
+uzbek|Uzbek|O'zbekcha|Узбекский
+main_menu|Main Menu - Penetration Testing Tools|Asosiy menyu - Penetration Testing vositalari|Главное меню - Инструменты для пентестинга
+web_pentest|Web Pentest|Web Pentest|Веб Пентест
+physical_pentest|Physical Pentest|Physical Pentest|Physical Pentest
+subdomain_enum|Subdomain Enumeration|Subdomain aniqlash|Анализ субдоменов
+port_scan|Port Scanning|Port skanerlash|Сканирование портов
+vuln_scan|Vulnerability Scanning|Zaifliklarni aniqlash|Поиск уязвимостей
+exit|Exit|Chiqish|Выход
+invalid_choice|Invalid choice. Please try again.|Noto'g'ri tanlov. Qaytadan urining.|Неверный выбор. Попробуйте снова.
+enter_target|Enter target domain (example.com):|Maqsadli domenni kiriting (example.com):|Введите целевой домен (example.com):
+subdomain_results|Subdomain Enumeration Results|Subdomain aniqlash natijalari|Результаты анализа субдоменов
+scan_complete|Scan completed!|Skanerlash tugadi!|Сканирование завершено!
+target_ip|Target IP Address:|Maqsadning IP manzili:|IP адрес цели:
+back|Back|Orqaga|Назад
+current|Current directory|Hozirgi joy|Текущая папка
+empty|Empty directory|Bo‘sh katalog|Папка пуста
+choose|Choose number|Tanlov raqamini kiriting|Введите номер
+copied|copied to|nusxalandi ->|скопировано в
+number_err|Enter a valid number|Raqam kiriting|Введите число
+start_notfound|Start directory not found|Boshlang‘ich katalog topilmadi|Начальная папка не найдена
+file_name|EN comment|UZ comment|RU comment
+Image Robber.sh|This is file 1 Image|Bu fayl 1 Image|Это файл 1 Image
