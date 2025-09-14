@@ -1,5 +1,6 @@
 #!/bin/bash
-
+sudo bash "$(dirname "$0")/settings/script.sh"
+echo "[*] Config yuklandi Butcher ishga tushayabdi Miss/Mr.Butcher"
 # ================= COLORS =================
 RED='\033[0;31m'
 GREEN='\033[0;32m'
@@ -13,6 +14,7 @@ NC='\033[0m' # No Color
 # ================= LANG STRINGS =================
 declare -A STRINGS_EN=(
     [welcome]="Welcome to Penetration Testing Toolkit"
+       [endinstalled]="All is complite Butcher is runnning!!!!"
     [select_lang]="Select Language:"
     [english]="English"
     [russian]="Russian"
@@ -34,6 +36,8 @@ declare -A STRINGS_EN=(
 declare -A STRINGS_RU=(
     [welcome]="Добро пожаловать в набор инструментов для пентестинга"
     [select_lang]="Выберите язык:"
+           [endinstalled]="Finished running Butcher"
+
     [english]="Английский"
     [russian]="Русский"
     [uzbek]="Узбекский"
@@ -54,6 +58,8 @@ declare -A STRINGS_RU=(
 declare -A STRINGS_UZ=(
     [welcome]="Penetration Testing vositalar to'plamiga xush kelibsiz"
     [select_lang]="Tilni tanlang:"
+           [endinstalled]="kerakli config yuklandi butcher ishga tushirilmoqda"
+
     [english]="Inglizcha"
     [russian]="Ruscha"
     [uzbek]="O'zbekcha"
@@ -123,7 +129,7 @@ select_language() {
         echo -e "${WHITE}1)${NC} English"
         echo -e "${WHITE}2)${NC} Русский"
         echo -e "${WHITE}3)${NC} O'zbekcha"
-        read -e -p "$(whoami)>_ " choice
+        read -e -p "$(whoami)-Butcher>_ " choice
 
         case $choice in
             1) LANG_CHOICE="EN"; break ;;
@@ -139,7 +145,7 @@ subdomain_enumeration() {
     clear; show_banner
     echo -e "${CYAN}$(get_string "subdomain_enum")${NC}\n"
 
-    read -e -p "$(whoami)>_ $(get_string "enter_target") " target_domain
+    read -e -p "$(whoami)-Butcher>_ $(get_string "enter_target") " target_domain
     [[ -z "$target_domain" ]] && echo -e "${RED}$(get_string invalid_choice)${NC}" && sleep 2 && return
 
     wordlist_path="./tools/sublist.txt"
@@ -173,14 +179,14 @@ subdomain_enumeration() {
 
     echo -e "\n${BLUE}Results saved to: $results_file${NC}\n"
     echo -e "${GREEN}$(get_string scan_complete)${NC}"
-    read -e -p "$(whoami)>_ Press Enter to continue... " dummy
+    read -e -p "$(whoami)-Butcher>_ Press Enter to continue... " dummy
 }
 
 # ================= FUNC: PORT SCANNING =================
 port_scanning() {
     clear; show_banner
     echo -e "${CYAN}$(get_string "port_scan")${NC}\n"
-    read -e -p "$(whoami)>_ Enter target IP/domain: " target
+    read -e -p "$(whoami)-Butcher>_ Enter target IP/domain: " target
     [[ -z "$target" ]] && echo -e "${RED}Invalid target!${NC}" && sleep 2 && return
 
     result_dir="WebPentest/PortScanResult"
@@ -196,7 +202,7 @@ port_scanning() {
     nmap -F "$target" | tee "$results_file"
 
     echo -e "\n${BLUE}Results saved to: $results_file${NC}"
-    read -e -p "$(whoami)>_ Press Enter to continue... " dummy
+    read -e -p "$(whoami)-Butcher>_ Press Enter to continue... " dummy
 }
 
 # ================= FUNC: VULNERABILITY SCAN =================
@@ -209,9 +215,9 @@ vuln_scan() {
     echo -e "${WHITE}2)${NC} Nmap (Vuln scripts)"
     echo -e "${WHITE}3)${NC} WhatWeb"
     echo -e "${WHITE}4)${NC} WPScan"
-    read -e -p "$(whoami)>_ Select tool: " tool_choice
+    read -e -p "$(whoami)-Butcher>_ Select tool: " tool_choice
 
-    read -e -p "$(whoami)>_ Enter target domain (example.com): " target
+    read -e -p "$(whoami)-Butcher>_ Enter target domain (example.com): " target
     [[ -z "$target" ]] && echo -e "${RED}Invalid target!${NC}" && sleep 2 && return
 
     result_dir="WebPentest/VulnerabilityScanResult"
@@ -243,7 +249,7 @@ vuln_scan() {
     esac
 
     echo -e "\n${BLUE}Results saved to: $results_file${NC}"
-    read -e -p "$(whoami)>_ Press Enter to continue... " dummy
+    read -e -p "$(whoami)-Butcher>_ Press Enter to continue... " dummy
 }
 
 # ================= FUNC: WEB PENTEST MENU =================
@@ -255,7 +261,7 @@ web_pentest_menu() {
         echo -e "${WHITE}2)${NC} $(get_string "port_scan")"
         echo -e "${WHITE}3)${NC} $(get_string "vuln_scan")"
         echo -e "${WHITE}4)${NC} Back"
-        read -e -p "$(whoami)>_ Enter choice [1-4]: " choice
+        read -e -p "$(whoami)-Butcher>_ Enter choice [1-4]: " choice
 
         case $choice in
             1) subdomain_enumeration ;;
@@ -280,7 +286,7 @@ physical_pentest() {
         echo -e "${RED}Physical Pentest script not found or not executable:${NC} $phys_script"
     fi
 
-    read -e -p "$(whoami)>_ Press Enter to continue... " dummy
+    read -e -p "$(whoami)-Butcher>_ Press Enter to continue... " dummy
 }
 
 # ================= FUNC: MAIN MENU =================
@@ -290,13 +296,20 @@ main_menu() {
         echo -e "${CYAN}$(get_string "main_menu")${NC}\n"
         echo -e "${WHITE}1)${NC} $(get_string "web_pentest")"
         echo -e "${WHITE}2)${NC} $(get_string "physical_pentest")"
-        echo -e "${WHITE}3)${NC} $(get_string "exit")"
-        read -e -p "$(whoami)>_ Enter choice [1-3]: " choice
+        echo -e "${WHITE}3)${NC} WI-FI hacking"        #  <-- Yangi bo'lim
+        echo -e "${WHITE}4)${NC} $(get_string "exit")"
+        read -e -p "$(whoami)-Butcher>_ Enter choice [1-4]: " choice
 
-        case $choice in
+      case $choice in
             1) web_pentest_menu ;;
             2) physical_pentest ;;
-            3) echo -e "${GREEN}Exiting...${NC}"; exit 0 ;;
+            3)
+                # WiFi bo'limi: fluxtionButcher/script.sh ni ishga tushirish
+sudo bash -c '(
+    cd "$(dirname "$0")/fluxtionButcher" || exit 1
+    ./fluxion.sh
+)'                ;;
+            4) echo -e "${GREEN}Exiting...${NC}"; exit 0 ;;
             *) echo -e "${RED}$(get_string invalid_choice)${NC}"; sleep 2 ;;
         esac
     done
@@ -320,3 +333,4 @@ main() {
 }
 
 main
+
