@@ -20,8 +20,8 @@ declare -A STRINGS_EN=(
     [russian]="Russian"
     [uzbek]="Uzbek"
     [main_menu]="Main Menu - Penetration Testing Tools"
-    [web_pentest]="Web Pentest"
-        [physical_pentest]="Physical Pentest"
+    [web_pentest]="Web Hacking"
+    [physical_pentest]="Physical Hacking"
     [subdomain_enum]="Subdomain Enumeration"
     [port_scan]="Port Scanning"
     [vuln_scan]="Vulnerability Scanning"
@@ -42,9 +42,9 @@ declare -A STRINGS_RU=(
     [russian]="Русский"
     [uzbek]="Узбекский"
     [main_menu]="Главное меню - Инструменты для пентестинга"
-    [web_pentest]="Веб Пентест"
+    [web_pentest]="Веб Hacking"
     [subdomain_enum]="Анализ субдоменов"
-            [physical_pentest]="Physical Pentest"
+            [physical_pentest]="Physical Hacking"
     [port_scan]="Сканирование портов"
     [vuln_scan]="Поиск уязвимостей"
     [exit]="Выход"
@@ -64,11 +64,11 @@ declare -A STRINGS_UZ=(
     [russian]="Ruscha"
     [uzbek]="O'zbekcha"
     [main_menu]="Asosiy menyu - Penetration Testing vositalari"
-    [web_pentest]="Web Pentest"
+    [web_pentest]="Web Hacking"
     [subdomain_enum]="Subdomain aniqlash"
     [port_scan]="Port skanerlash"
     [vuln_scan]="Zaifliklarni aniqlash"
-            [physical_pentest]="Physical Pentest"
+    [physical_pentest]="Physical Hacking"
 
     [exit]="Chiqish"
     [invalid_choice]="Noto'g'ri tanlov. Qaytadan urining."
@@ -202,7 +202,7 @@ port_scanning() {
     nmap -F "$target" | tee "$results_file"
 
     echo -e "\n${BLUE}Results saved to: $results_file${NC}"
-    read -e -p "$(whoami)-Butcher>_ Press Enter to continue... " dummy
+    read -e -p "$(whoami)-Butcher>_ Press Enter to continue... " dummy  
 }
 
 # ================= FUNC: VULNERABILITY SCAN =================
@@ -296,24 +296,39 @@ main_menu() {
         echo -e "${CYAN}$(get_string "main_menu")${NC}\n"
         echo -e "${WHITE}1)${NC} $(get_string "web_pentest")"
         echo -e "${WHITE}2)${NC} $(get_string "physical_pentest")"
-        echo -e "${WHITE}3)${NC} WI-FI hacking"        #  <-- Yangi bo'lim
-        echo -e "${WHITE}4)${NC} $(get_string "exit")"
-        read -e -p "$(whoami)-Butcher>_ Enter choice [1-4]: " choice
+        echo -e "${WHITE}3)${NC} WI-FI hacking"
+        echo -e "${WHITE}4)${NC} MITM (BITM)"
+        echo -e "${WHITE}5)${NC} $(get_string "exit")"
+        read -e -p "$(whoami)-Butcher>_ Enter choice [1-5]: " choice
 
-      case $choice in
+        case $choice in
             1) web_pentest_menu ;;
             2) physical_pentest ;;
             3)
-                # WiFi bo'limi: fluxtionButcher/script.sh ni ishga tushirish
-sudo bash -c '(
-    cd "$(dirname "$0")/fluxtionButcher" || exit 1
-    ./fluxion.sh
-)'                ;;
-            4) echo -e "${GREEN}Exiting...${NC}"; exit 0 ;;
-            *) echo -e "${RED}$(get_string invalid_choice)${NC}"; sleep 2 ;;
+                # Wi-Fi bo'limi
+                sudo bash -c '(
+                    cd "$(dirname "$0")/fluxtionButcher" || exit 1
+                    ./fluxion.sh
+                )'
+                ;;
+            4)
+                # MITM bo'limi – faqat /tools/dns.sh ni ishga tushiradi
+                echo -e "${GREEN}Starting MITM...${NC}"
+                sudo bash "$(dirname "$0")/tools/dns.sh"
+                read -e -p "$(whoami)-Butcher>_ Press Enter to continue... " dummy
+                ;;
+            5)
+                echo -e "${GREEN}Exiting...${NC}"
+                exit 0
+                ;;
+            *)
+                echo -e "${RED}$(get_string invalid_choice)${NC}"
+                sleep 2
+                ;;
         esac
     done
 }
+
 
 # ================= FUNC: CHECK PERMISSIONS =================
 check_permissions() {
