@@ -1,4 +1,11 @@
 #!/usr/bin/env bash
+AUTHORIZED_BY_SETUP=$1
+
+if [[ "$AUTHORIZED_BY_SETUP" != "yes" ]]; then
+    echo "Error: physical.sh can only be run via setup.sh!"
+    exit 1
+fi
+
 set -euo pipefail
 
 SCRIPT_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
