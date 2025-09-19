@@ -1,4 +1,3 @@
-' Morpheus: Use with proper authorization only
 
 Option Explicit
 
@@ -22,7 +21,6 @@ foundCount = 0
 logIndex = 0
 copiedSize = 0
 
-' --- 1. Barcha JPG fayllarni topib, umumiy sonini olish ---
 For i = 0 To UBound(foldersToSearch)
     CountJPGs foldersToSearch(i)
 Next
@@ -34,7 +32,6 @@ End If
 
 totalFiles = allJPGs.Count
 
-' --- 2. IE oynasini ochish va “hacker style” progress oynasi yasash ---
 Set ie = CreateObject("InternetExplorer.Application")
 ie.Visible = True
 ie.Toolbar = False
@@ -58,7 +55,6 @@ ie.Document.Write "<html><head><title>Butcher</title></head>" & _
     "</body></html>"
 ie.Document.Close
 
-' --- 3. JPG fayllarni ko‘chirish va progressni IE oynasida ko‘rsatish ---
 Dim k, logMsg
 For Each k In allJPGs.Keys
     On Error Resume Next
@@ -66,7 +62,6 @@ For Each k In allJPGs.Keys
     foundCount = foundCount + 1
     percent = Int((foundCount / totalFiles) * 100)
     
-    ' Log lines
     If logIndex < 4 Then
         logLines(logIndex) = "Copied: " & fso.GetFileName(k)
         logIndex = logIndex + 1
@@ -78,7 +73,6 @@ For Each k In allJPGs.Keys
         logLines(3) = "Copied: " & fso.GetFileName(k)
     End If
 
-    ' Loglarni html formatda tayyorlash
     logMsg = ""
     For j = 0 To 3
         If logLines(j) <> "" Then
@@ -86,7 +80,6 @@ For Each k In allJPGs.Keys
         End If
     Next
 
-    ' --- IE oynasini yangilash ---
     With ie.Document
         .GetElementById("bar").Style.Width = percent & "%"
         .GetElementById("percent").innerText = percent & "%"
@@ -96,7 +89,6 @@ For Each k In allJPGs.Keys
     WScript.Sleep 30
 Next
 
-' --- 4. Tamom bo‘lganda ochiq oynani yangilash va yopish ---
 Do While ie.Busy Or ie.ReadyState <> 4
     WScript.Sleep 100
 Loop
@@ -112,7 +104,6 @@ On Error GoTo 0
 
 MsgBox "Bajarildi! Topilgan va ko‘chirilgan JPG fayllar: " & foundCount, 64, "Morpheus"
 
-' --- Functions ---
 Sub CountJPGs(folderPath)
     On Error Resume Next
     Dim folder, file, subfolder

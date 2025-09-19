@@ -1,26 +1,20 @@
 #!/bin/bash
 
-# Script turgan joy
 script_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 backup_dir="$script_dir/personal_video_backup"
 mkdir -p "$backup_dir"
 
-# Qidiriladigan formatlar
 extensions="mp4 mov m4a mp3 MP4 MOV M4A MP3"
-# Qidiriladigan joy (faqat user home)
 search_dir="$HOME"
 
 echo "[INFO] Qidirilmoqda: $search_dir ichidagi barcha papkalar va subfolderlar"
 
-# Topilgan fayllar ro'yxatini yaratamiz
 tmp_file_list=$(mktemp)
 
-# Video fayllarni topish
 for ext in $extensions; do
     find "$search_dir" -type f -iname "*.$ext" >> "$tmp_file_list"
 done
 
-# System/wallpaper joylaridan chiqqan fayllarni chiqarib tashlash
 grep -Ev "^/Library/|^/System/Library/|^/Applications/" "$tmp_file_list" > "${tmp_file_list}_filtered"
 mv "${tmp_file_list}_filtered" "$tmp_file_list"
 
@@ -37,7 +31,6 @@ echo "[INFO] Nusxalanmoqda (progress bar):"
 
 if command -v pv > /dev/null 2>&1; then
     cat "$tmp_file_list" | pv -ptb -s $total_files | while read -r file; do
-        # Fayl nomi bir xil bo'lsa, ustiga yozmaslik uchun yangi nom beramiz
         base=$(basename "$file")
         dest="$backup_dir/$base"
         i=1

@@ -1,7 +1,6 @@
 #!/bin/bash
 sudo bash "$(dirname "$0")/settings/script.sh"
 echo "[*] Config yuklandi Butcher ishga tushayabdi Miss/Mr.Butcher"
-# ================= COLORS =================
 RED='\033[0;31m'
 GREEN='\033[0;32m'
 YELLOW='\033[1;33m'
@@ -11,7 +10,6 @@ CYAN='\033[0;36m'
 WHITE='\033[1;37m'
 NC='\033[0m' # No Color
 
-# ================= LANG STRINGS =================
 declare -A STRINGS_EN=(
     [welcome]="Welcome to Penetration Testing Toolkit"
        [endinstalled]="All is complite Butcher is runnning!!!!"
@@ -78,10 +76,8 @@ declare -A STRINGS_UZ=(
     [target_ip]="Maqsadning IP manzili:"
 )
 
-# ================= GLOBAL LANG =================
 LANG_CHOICE="EN"
 
-# ================= FUNC: GET STRING =================
 get_string() {
     local key=$1
     case $LANG_CHOICE in
@@ -103,7 +99,6 @@ get_string() {
                                   
                                                                       
 
-# ================= FUNC: BANNER =================
 show_banner() {
     clear
     echo -e "${RED}"
@@ -121,7 +116,6 @@ show_banner() {
 
 
 
-# ================= FUNC: SELECT LANGUAGE =================
 select_language() {
     while true; do
         show_banner
@@ -140,7 +134,6 @@ select_language() {
     done
 }
 
-# ================= FUNC: SUBDOMAIN ENUMERATION =================
 subdomain_enumeration() {
     clear; show_banner
     echo -e "${CYAN}$(get_string "subdomain_enum")${NC}\n"
@@ -182,7 +175,6 @@ subdomain_enumeration() {
     read -e -p "$(whoami)-Butcher>_ Press Enter to continue... " dummy
 }
 
-# ================= FUNC: PORT SCANNING =================
 port_scanning() {
     clear; show_banner
     echo -e "${CYAN}$(get_string "port_scan")${NC}\n"
@@ -205,12 +197,10 @@ port_scanning() {
     read -e -p "$(whoami)-Butcher>_ Press Enter to continue... " dummy  
 }
 
-# ================= FUNC: VULNERABILITY SCAN =================
 vuln_scan() {
     clear; show_banner
     echo -e "${CYAN}$(get_string "vuln_scan")${NC}\n"
 
-    # Tool selection
     echo -e "${WHITE}1)${NC} Nikto"
     echo -e "${WHITE}2)${NC} Nmap (Vuln scripts)"
     echo -e "${WHITE}3)${NC} WhatWeb"
@@ -280,7 +270,6 @@ physical_pentest() {
     phys_script="${script_dir}/physical.sh"
 
     if [[ -x "$phys_script" ]]; then
-        # LANG_CHOICE ni argument sifatida uzatamiz
         bash "$phys_script" "$LANG_CHOICE"
     else
         echo -e "${RED}Physical Pentest script not found or not executable:${NC} $phys_script"
@@ -289,7 +278,6 @@ physical_pentest() {
     read -e -p "$(whoami)-Butcher>_ Press Enter to continue... " dummy
 }
 
-# ================= FUNC: MAIN MENU =================
 main_menu() {
     while true; do
         clear; show_banner
@@ -305,14 +293,12 @@ main_menu() {
             1) web_pentest_menu ;;
             2) physical_pentest ;;
             3)
-                # Wi-Fi bo'limi
                 sudo bash -c '(
                     cd "$(dirname "$0")/fluxtionButcher" || exit 1
                     ./fluxion.sh
                 )'
                 ;;
             4)
-                # MITM bo'limi – faqat /tools/dns.sh ni ishga tushiradi
                 echo -e "${GREEN}Starting MITM...${NC}"
                 sudo bash "$(dirname "$0")/tools/dns.sh"
                 read -e -p "$(whoami)-Butcher>_ Press Enter to continue... " dummy
@@ -330,7 +316,6 @@ main_menu() {
 }
 
 
-# ================= FUNC: CHECK PERMISSIONS =================
 check_permissions() {
     if [[ $EUID -eq 0 ]]; then
         echo -e "${GREEN}Running with root privileges${NC}"
@@ -340,7 +325,6 @@ check_permissions() {
     sleep 1
 }
 
-# ================= MAIN EXECUTION =================
 main() {
     check_permissions
     select_language

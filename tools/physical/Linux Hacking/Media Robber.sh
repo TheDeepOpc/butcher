@@ -1,21 +1,16 @@
 #!/bin/bash
 
-# Maxfiy backup papka
 backup_dir="$HOME/.media_backup"
 mkdir -p "$backup_dir"
 
-# Qidiriladigan joy (faqat user home)
 search_dir="$HOME"
 
-# Media formatlari (kichik va katta harflar)
 extensions="mp4 mov m4a mp3 MP4 MOV M4A MP3"
 
 echo "[INFO] Qidirilmoqda: $search_dir ichidagi barcha papkalar va subfolderlar"
 
-# Topilgan fayllar ro‘yxatini yaratamiz
 tmp_file_list=$(mktemp)
 
-# Media fayllarini topish (barcha subfolderlar bilan)
 for ext in $extensions; do
     find "$search_dir" -type f -iname "*.$ext" >> "$tmp_file_list"
 done

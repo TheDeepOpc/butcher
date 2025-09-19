@@ -4,11 +4,8 @@ set -euo pipefail
 SCRIPT_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 LANG_FILE="$SCRIPT_ROOT/languages.txt"
 
-# ================= LANG CHOICE =================
-# Setup.sh dan kelgan argumentni oling, default EN
 LANG_CHOICE="${1:-EN}"
 
-# ================= FUNC: GET STRING =================
 msg() {
     local key="$1"
     local col
@@ -56,7 +53,6 @@ choose_path() {
             local full="$current_dir/$name"
 
             if [[ -d "$full" ]]; then
-                # Agar About Malwares papkasi tanlansa
                 if [[ "$name" == "About malwares" ]]; then
                     local run_file="$full/run.sh"
                     if [[ -f "$run_file" ]]; then
@@ -67,7 +63,6 @@ choose_path() {
                         return
                     fi
                 else
-                    # Boshqa papkaga kirish
                     choose_path "$full"
                     continue
                 fi
@@ -84,7 +79,6 @@ choose_path() {
     done
 }
 
-# --- Boshlanish ---
 
 START_DIR="$SCRIPT_ROOT/tools/physical"
 if [[ ! -d "$START_DIR" ]]; then

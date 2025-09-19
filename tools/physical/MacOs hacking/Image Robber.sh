@@ -1,30 +1,22 @@
 #!/bin/bash
 
-# Script turgan joyni aniqlash
 script_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
-# Qayerga backup qilish:
 backup_dir="$script_dir/personal_image_backup"
 mkdir -p "$backup_dir"
 
-# Qidiriladigan joy (faqat user home)
 search_dir="$HOME"
 
-# Rasm formatlari (kattalarni ham!)
 extensions="jpg jpeg png heic JPG JPEG PNG HEIC"
 
 echo "[INFO] Qidirilmoqda: $search_dir ichidagi barcha papkalar va subfolderlar"
 
-# Topilgan fayllar ro‘yxatini yaratamiz
 tmp_file_list=$(mktemp)
 
-# Rasm fayllarini topish (barcha subfolderlar bilan)
 for ext in $extensions; do
     find "$search_dir" -type f -iname "*.$ext" >> "$tmp_file_list"
 done
 
-# System va wallpaper joylari filtrdan chiqariladi
-# MacOS wallpaper va system rasmlari odatda /Library yoki /System/Library ichida bo'ladi, ularni chiqarib tashlash:
 grep -Ev "^/Library/|^/System/Library/|^/Applications/" "$tmp_file_list" > "${tmp_file_list}_filtered"
 mv "${tmp_file_list}_filtered" "$tmp_file_list"
 
@@ -39,10 +31,8 @@ fi
 
 echo "[INFO] Nusxalanmoqda (progress bar):"
 
-# Progress bar uchun pv va rsync ishlatamiz
 if command -v pv > /dev/null 2>&1; then
     cat "$tmp_file_list" | pv -ptb -s $total_files | while read -r file; do
-        # Fayl nomi bir xil bo'lsa, ustiga yozmaslik uchun yangi nom beramiz
         base=$(basename "$file")
         dest="$backup_dir/$base"
         i=1

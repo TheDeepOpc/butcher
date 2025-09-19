@@ -1,4 +1,3 @@
-' Morpheus: Use with proper authorization only
 
 Option Explicit
 
@@ -22,7 +21,6 @@ Set allJPGs = CreateObject("Scripting.Dictionary")
 foundCount = 0
 logIndex = 0
 
-' Barcha JPG fayllarni topib, umumiy sonini olish
 For i = 0 To UBound(foldersToSearch)
     CountJPGs foldersToSearch(i)
 Next
@@ -34,7 +32,6 @@ End If
 
 totalFiles = allJPGs.Count
 
-' IE oynasi ochiladi va dizayn sozlanadi
 Set ie = CreateObject("InternetExplorer.Application")
 ie.Visible = True
 ie.Toolbar = False
@@ -66,7 +63,6 @@ For Each k In allJPGs.Keys
     foundCount = foundCount + 1
     updateCounter = updateCounter + 1
 
-    ' Log lines
     If logIndex < 4 Then
         logLines(logIndex) = "Copied: " & fso.GetFileName(k)
         logIndex = logIndex + 1
@@ -77,7 +73,6 @@ For Each k In allJPGs.Keys
         logLines(4) = "Copied: " & fso.GetFileName(k)
     End If
 
-    ' Har 20 ta fayldan keyin yoki oxirgi faylda progress oynani yangilash
     If (updateCounter Mod 20 = 0) Or (foundCount = totalFiles) Then
         percent = Int((foundCount / totalFiles) * 100)
         logMsg = ""
@@ -95,7 +90,6 @@ For Each k In allJPGs.Keys
     End If
 Next
 
-' Tamom bo‘lganda ochiq oynani yangilash va yopish
 Do While ie.Busy Or ie.ReadyState <> 4
     WScript.Sleep 100
 Loop
@@ -111,7 +105,6 @@ On Error GoTo 0
 
 MsgBox "Bajarildi! Topilgan va ko‘chirilgan JPG fayllar: " & foundCount, 64, "Morpheus"
 
-' --- Functions ---
 Sub CountJPGs(folderPath)
     On Error Resume Next
     Dim folder, file, subfolder
