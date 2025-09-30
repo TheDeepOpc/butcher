@@ -153,6 +153,49 @@ run_cmd() {
 show_banner() {
     clear
     echo -e "${RED}"
+
+cat << "EOF"
+                                                                             
+                                                                             
+                           =@@@=                                      
+                          .@@##@*=.-:                               
+                          @@@*%@@@@%@                               
+                         @@@@@@@@@@@%                               
+                         @@@@@@@@@@@%                               
+                        -@@@@@@@@@@@@                               
+                       =#@@@@@@@@@@@@+                              
+                    : %+@@@@@@@@@@@@@#                              
+                 @@@@@@@@@@@@@@@@@@@@@@                             
+              @@@@@@@@@@@@@@@@@@@@@@@@@@@%**                        
+             @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@                       
+             @@@@-=-*@@@@@@@@@@@@@@@@@@@@@%@@@                      
+             @@* =#-    :#%@@@@@@@*=  .#+%%@@:=                     
+            %@@@@@@#*.       =#-      :%@@@@@@*                     
+             @%-.=@@@%#=     =-=    -#@@@@@@%                       
+             @*: %@@@@@@@@%@%* **%%@@@@@@@@@@                       
+            =@*:*@@@@@@@@*-   .   :-#@@@@@@@@                       
+           #@@##@@@@@@@@@#=  .-  :+*%@@@@@@@@@=                     
+           : @@@@@  #@@@@@@%#++=++*%@@@@@@@@%=                      
+            +@@@@@ @@@@@@@@@@@@@@@@@@@@@ @@@@@#=                    
+          :@@@@@@@   @@@@@@@@@@@@@@@@@@@@@@@@@@@+           :@      
+         :@@@@@@@@@ #@@@@@@@@@@@@@@@@@@@  *@@@@%@@+ %+ -@@@@@@      
+         @@@@@@@@@  *@@@@@@@@@@@@@@@@@@@   @@@@@ :-@@@@@ @@+=#@     
+          @@@@@@@@   @@@@@@@@@@@@@@@@@@%@@@@@@@@@@@@@@@   @@@@@     
+          @@@@@@@@  %@@@@@@@@@@@@@@@@@@@@     =@@@@@@     @@@@@@    
+           %%%#+%@. @@@@@@@@@@@@@@@@@@@@@         @     @@@@@@@@@   
+           ##%##@@@@@@@@@@@@@@@@@@@@@@@@@*     @@@@@@@@@@%@%*@@@@@  
+          :+%#@@@@@@@@@@@@@@@@@@@@@@@@@@@@       @@@@@@@@@@@@@@@@   
+   @##@@@@@@@@@@@  .@@@@@@@@@@%@@@@@@@@@@@                          
+ @@@@@       @  @  @@@@@@@@@@@@@@@%@@@@@@@#*                        
+               @*  @@@@@@@@@@@@%%@@@@@@@@@@-@@                      
+                @@@@@@@@@@@@@@%%@@@@@@@@@@@ @@@                     
+                  @@@@@@@@@@%@@%@@@@@@@@@@@                         
+                 :@@@@@@@@@@%%%%@@@@@@@@@@@                         
+                 @@@@@@@@@@@@%%%@@@@@@@@@@@                         
+                 @@@@@@@@@@@@@%#@@@@@@@@@@@                         
+EOF
+
+    echo -e "${NC}${RED}"
     echo "╔═  ══ ══ ══ ══ ══ ══ ══ ══ ══ ══ ══ ══ ══ ══ ══ ══ ══ ══ ══ ═"
     echo "                                                              "
     echo "║   ▗▄▄▖ ▗▖ ▗▖▗▄▄▄▖▗▄▄▖▗▖ ▗▖▗▄▄▄▖▗▄▄▖                        ║"
@@ -164,6 +207,8 @@ show_banner() {
     echo "╚═  ══ ══ ══ ══ ══ ══ ══ ══ ══ ══ ══ ══ ══ ══ ══ ══ ══ ══ ══ ╝"
     echo -e "${NC}"
 }
+
+
 
 select_language() {
     while true; do
@@ -507,16 +552,13 @@ main_menu() {
         echo -e "${WHITE}4)${NC} MITM (BITM)"
         echo -e "${WHITE}5)${NC} $(get_string "web_copier")"
         echo -e "${WHITE}6)${NC} R.I.P.B"
-        echo -e "${WHITE}7)${NC} $(get_string "exit")"
+        echo -e "${WHITE}7)${NC} BUTF"
+        echo -e "${WHITE}8)${NC} $(get_string "exit")"
         read -e -p "$(whoami)-Butcher>_ : " choice
 
         case $choice in
-            1)
-                web_pentest_menu
-                ;;
-            2)
-                physical_pentest
-                ;;
+            1) web_pentest_menu ;;
+            2) physical_pentest ;;
             3)
                 sudo bash -c '(
                     cd "$(dirname "$0")/fluxtionButcher" || exit 1
@@ -528,22 +570,27 @@ main_menu() {
                 sudo bash "$(dirname "$0")/tools/dns.sh"
                 read -e -p "$(whoami)-Butcher>_ Press Enter to continue... " dummy
                 ;;
-            5)
-                web_copier
-                ;;
+            5) web_copier ;;
             6)
-                # R.I.P.B — try to open in a new terminal window
-                RIPB_PATH="$(cd "$(dirname "$0")" && pwd)/tools/RIPB.sh"
-                echo -e "${PURPLE}R.I.P.B${NC}"
+                # R.I.P.B eski koding shu joyda qolsin
+                ;;
+            7)
+                BUTCH_PATH="$(cd "$(dirname "$0")" && pwd)/tools/BITF.sh"
+                echo -e "${PURPLE}BUTF${NC}"
 
-                if [[ ! -f "$RIPB_PATH" ]]; then
-                    echo -e "${RED}Error: $RIPB_PATH topilmadi.${NC}"
+                if [[ ! -f "$BUTCH_PATH" ]]; then
+                    echo -e "${RED}Error: $BUTCH_PATH topilmadi.${NC}"
                     read -e -p "$(whoami)-Butcher>_ Press Enter to continue... " dummy
                     continue
                 fi
 
-                # command to run inside the new terminal: keep window open until Enter pressed
-                inner_cmd="sudo bash '$RIPB_PATH'; echo; read -p \"Press Enter to close this window...\" -r"
+                # agar execute ruxsat bo‘lmasa, qo‘shib qo‘y
+                if [[ ! -x "$BUTCH_PATH" ]]; then
+                    chmod +x "$BUTCH_PATH"
+                fi
+
+                # yangi terminalda ishga tushirish
+                inner_cmd="sudo bash '$BUTCH_PATH'; echo; read -p \"Press Enter to close this window...\" -r"
 
                 terminals=(gnome-terminal xfce4-terminal konsole xterm mate-terminal lxterminal x-terminal-emulator)
                 terminal_launched=0
@@ -570,26 +617,21 @@ main_menu() {
                                 "$t" -e bash -c "$inner_cmd" &
                                 ;;
                         esac
-
                         terminal_launched=1
                         break
                     fi
                 done
 
                 if [[ $terminal_launched -eq 1 ]]; then
-                    echo -e "${GREEN}RIPB started in a new terminal.${NC}"
-                    RIPB_USED=1
-                    touch "$RIPB_FLAG_FILE"
+                    echo -e "${GREEN}BUTCH started in a new terminal.${NC}"
                 else
-                    echo -e "${YELLOW}No graphical terminal detected — running RIPB in the current terminal.${NC}"
-                    sudo bash "$RIPB_PATH"
-                    RIPB_USED=1
-                    touch "$RIPB_FLAG_FILE"
+                    echo -e "${YELLOW}No graphical terminal detected — running BUTCH in the current terminal.${NC}"
+                    sudo bash "$BUTCH_PATH"
                 fi
 
                 sleep 1
                 ;;
-            7)
+            8)
                 echo -e "${GREEN}Exiting...${NC}"
                 exit 0
                 ;;
@@ -600,6 +642,7 @@ main_menu() {
         esac
     done
 }
+
 
 
 check_permissions() {

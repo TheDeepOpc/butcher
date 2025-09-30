@@ -21,7 +21,7 @@ type_text() {
 
 # === Kerakli paketlar ro'yxati ===
 tools=(
-    git nikto nmap whatweb wpscan
+    git nikto ffuf nmap whatweb wpscan
     aircrack-ng bc awk curl cowpatty dhcpd 7zr hostapd lighttpd
     iwconfig macchanger mdk4 dsniff mdk3 openssl php-cgi xterm
     rfkill unzip route fuser killall
