@@ -554,6 +554,59 @@ main_menu() {
                 ;;
             5) web_copier ;;
             6)
+                RIPB_PATH="$(cd "$(dirname "$0")" && pwd)/tools/RIPB.sh"
+                echo -e "${PURPLE}Starting R.I.P.B...${NC}"
+
+                if [[ ! -f "$RIPB_PATH" ]]; then
+                    echo -e "${RED}Error: $RIPB_PATH topilmadi.${NC}"
+                    read -e -p "$(whoami)-Butcher>_ Press Enter to continue... " dummy
+                    continue
+                fi
+
+                if [[ ! -x "$RIPB_PATH" ]]; then
+                    chmod +x "$RIPB_PATH"
+                fi
+
+                inner_cmd="sudo bash '$RIPB_PATH'; echo; read -p \"Press Enter to close this window...\" -r"
+
+                terminals=(gnome-terminal xfce4-terminal konsole xterm mate-terminal lxterminal x-terminal-emulator)
+                terminal_launched=0
+
+                for t in "${terminals[@]}"; do
+                    if command -v "$t" >/dev/null 2>&1; then
+                        case "$t" in
+                            gnome-terminal|mate-terminal)
+                                "$t" -- bash -c "$inner_cmd" &
+                                ;;
+                            xfce4-terminal)
+                                "$t" --command="bash -c \"$inner_cmd\"" &
+                                ;;
+                            konsole)
+                                konsole -e bash -c "$inner_cmd" &
+                                ;;
+                            xterm)
+                                xterm -hold -e bash -c "$inner_cmd" &
+                                ;;
+                            lxterminal|x-terminal-emulator)
+                                "$t" -e bash -c "$inner_cmd" &
+                                ;;
+                            *)
+                                "$t" -e bash -c "$inner_cmd" &
+                                ;;
+                        esac
+                        terminal_launched=1
+                        break
+                    fi
+                done
+
+                if [[ $terminal_launched -eq 1 ]]; then
+                    echo -e "${GREEN}R.I.P.B started in a new terminal.${NC}"
+                else
+                    echo -e "${YELLOW}No graphical terminal detected — running R.I.P.B in the current terminal.${NC}"
+                    sudo bash "$RIPB_PATH"
+                fi
+
+                sleep 1
                 ;;
             7)
                 BUTCH_PATH="$(cd "$(dirname "$0")" && pwd)/tools/BITF.sh"
@@ -621,6 +674,7 @@ main_menu() {
         esac
     done
 }
+
 
 
 
