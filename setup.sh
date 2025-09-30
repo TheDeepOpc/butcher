@@ -19,7 +19,7 @@ RED='\033[0;31m'
 GREEN='\033[0;32m'
 YELLOW='\033[1;33m'
 BLUE='\033[0;34m'
-PURPLE='\033[0;35m'
+PURPLE='\033[0;35m' 
 CYAN='\033[0;36m'
 WHITE='\033[1;37m'
 NC='\033[0m' # No Color
@@ -120,25 +120,20 @@ get_string() {
     esac
 }
 
-# ----- RIPB usage flag setup -----
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 RIPB_FLAG_FILE="$SCRIPT_DIR/.ripb_used"
 RIPB_USED=0
 
-# restore flag if exists from previous run
 if [[ -f "$RIPB_FLAG_FILE" ]]; then
     RIPB_USED=1
 fi
 
-# wrapper to run commands optionally through torsocks if RIPB was used
 run_cmd() {
     if [[ "${RIPB_USED:-0}" -eq 1 && "${NMAP_FORCE_NO_TORSOCKS:-0}" -eq 0 ]]; then
         if command -v torsocks >/dev/null 2>&1; then
-            # Use torsocks wrapper for general commands (curl, dig+tcp, etc.)
             torsocks "$@"
             return $?
         else
-            # torsocks not installed -> warn and run directly
             echo -e "${YELLOW}torsocks not installed; running command without torsocks.${NC}"
             "$@"
             return $?
@@ -269,26 +264,21 @@ subdomain_enumeration() {
     read -e -p "$(whoami)-Butcher>_ Press Enter to continue... " dummy
 }
 
-# nmap wrapper: avtomatik ravishda RIPB holatida TCP-connect va -Pn qo'shadi
 nmap_wrapper() {
     local args=("$@")
     local nmap_bin
     nmap_bin="$(which nmap 2>/dev/null || echo /usr/bin/nmap)"
 
-    # If RIPB used, prefer safe options for Tor/proxy usage.
     if [[ "${RIPB_USED:-0}" -eq 1 ]]; then
-        # prefer TCP connect scan and skip host discovery for proxy usage
         args=( "-sT" "-Pn" "${args[@]}" )
     fi
 
-    # If RIPB not used -> just run nmap directly
     if [[ "${RIPB_USED:-0}" -eq 0 ]]; then
         "${nmap_bin}" "${args[@]}"
         return $?
     fi
 
-    # RIPB_USED == 1 from here on.
-    # If getcap shows capabilities on original nmap binary, torsocks may be blocked.
+ 
     if command -v getcap >/dev/null 2>&1; then
         if getcap "$nmap_bin" 2>/dev/null | grep -q "cap_net"; then
             echo -e "${YELLOW}Notice: nmap has network capabilities (cap_net_raw). torsocks may be incompatible.${NC}"
@@ -299,7 +289,6 @@ nmap_wrapper() {
         fi
     fi
 
-    # Try to run nmap via torsocks (use run_cmd to get same behavior for other commands)
     if command -v torsocks >/dev/null 2>&1; then
         # First do a quick test: run 'torsocks --version' or a harmless call to ensure LD_PRELOAD works
         # Some torsocks versions support `torsocks --version`; if not, fallback to trying a small curl call
@@ -316,7 +305,6 @@ nmap_wrapper() {
             if [[ $status -eq 0 ]]; then
                 return 0
             else
-                # detect common failure signals
                 if echo "$stderr" | grep -qi -e "Operation not permitted" -e "not permitted" -e "missing architecture"; then
                     echo -e "${YELLOW}torsocks -> nmap failed: ${stderr%%$'\n'*}${NC}"
                     echo -e "${YELLOW}Falling back: running nmap without torsocks in TCP-connect mode (-sT -Pn).${NC}"
@@ -324,7 +312,6 @@ nmap_wrapper() {
                     "${nmap_bin}" "${args[@]}"
                     return $?
                 else
-                    # Unknown error - print stderr and return failure code
                     echo -e "${RED}nmap via torsocks failed:${NC}"
                     echo "$stderr"
                     return $status
@@ -345,7 +332,6 @@ nmap_wrapper() {
 
 
 
-# Updated port_scanning using nmap_wrapper
 port_scanning() {
     clear; show_banner
     echo -e "${CYAN}$(get_string "port_scan")${NC}\n"
@@ -362,7 +348,6 @@ port_scanning() {
     done
 
     echo -e "${GREEN}Scanning ports on $target...${NC}"
-    # Use -F by default to keep previous behavior; wrapper will modify options when needed
     nmap_wrapper -F "$target" | tee "$results_file"
 
     echo -e "\n${BLUE}Results saved to: $results_file${NC}"
@@ -414,7 +399,6 @@ vuln_scan() {
     read -e -p "$(whoami)-Butcher>_ Press Enter to continue... " dummy
 }
 
-# ================= FUNC: WEB PENTEST MENU =================
 web_pentest_menu() {
     while true; do
         clear; show_banner
@@ -474,7 +458,6 @@ web_copier() {
         return
     fi
 
-    # prompt domain according to selected language
     read -r -e -p "$(whoami)-Butcher>_ $(get_string "enter_domain") " target_domain
     # trim whitespace
     target_domain="$(echo -n "$target_domain" | tr -d '[:space:]')"
@@ -510,8 +493,7 @@ web_copier() {
     echo -e "${GREEN}$(get_string "webcopier_start") $target_domain${NC}"
     echo -e "${BLUE}Downloading frontend and assets into:${NC} $dest_dir${NC}"
 
-    # Build wget command: mirror site, get page requisites (CSS, JS, images), convert links, adjust extensions
-    # We prefer HTTPS, fallback to HTTP if HTTPS fails.
+
     try_https() {
         wget --mirror --convert-links --adjust-extension --page-requisites --no-parent \
             --wait=0.2 --random-wait --limit-rate=200k --retry-connrefused --tries=3 \
@@ -552,7 +534,7 @@ main_menu() {
         echo -e "${WHITE}4)${NC} MITM (BITM)"
         echo -e "${WHITE}5)${NC} $(get_string "web_copier")"
         echo -e "${WHITE}6)${NC} R.I.P.B"
-        echo -e "${WHITE}7)${NC} BUTF"
+        echo -e "${WHITE}7)${NC} Spidey Websint"
         echo -e "${WHITE}8)${NC} $(get_string "exit")"
         read -e -p "$(whoami)-Butcher>_ : " choice
 
@@ -572,7 +554,6 @@ main_menu() {
                 ;;
             5) web_copier ;;
             6)
-                # R.I.P.B eski koding shu joyda qolsin
                 ;;
             7)
                 BUTCH_PATH="$(cd "$(dirname "$0")" && pwd)/tools/BITF.sh"
@@ -584,12 +565,10 @@ main_menu() {
                     continue
                 fi
 
-                # agar execute ruxsat bo‘lmasa, qo‘shib qo‘y
                 if [[ ! -x "$BUTCH_PATH" ]]; then
                     chmod +x "$BUTCH_PATH"
                 fi
 
-                # yangi terminalda ishga tushirish
                 inner_cmd="sudo bash '$BUTCH_PATH'; echo; read -p \"Press Enter to close this window...\" -r"
 
                 terminals=(gnome-terminal xfce4-terminal konsole xterm mate-terminal lxterminal x-terminal-emulator)
