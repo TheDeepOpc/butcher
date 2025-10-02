@@ -459,7 +459,6 @@ web_copier() {
     fi
 
     read -r -e -p "$(whoami)-Butcher>_ $(get_string "enter_domain") " target_domain
-    # trim whitespace
     target_domain="$(echo -n "$target_domain" | tr -d '[:space:]')"
 
     if [[ -z "$target_domain" ]]; then
@@ -468,10 +467,8 @@ web_copier() {
         return
     fi
 
-    # simple domain validation (allows subdomains.domain.tld)
     is_valid_domain() {
         local d="$1"
-        # regex: labels 1-63 characters, overall simple check for domain.tld
         if [[ "$d" =~ ^([a-zA-Z0-9]([a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?\.)+[A-Za-z]{2,}$ ]]; then
             return 0
         fi
@@ -484,28 +481,44 @@ web_copier() {
         return
     fi
 
-    # sanitize name for filesystem
     safe_target=$(echo "$target_domain" | sed 's/[^A-Za-z0-9._-]/_/g')
     timestamp=$(date +%Y%m%d_%H%M%S)
     dest_dir="WebClones/${safe_target}_${timestamp}"
-    mkdir -p -- "$dest_dir"
+
+    # create directory with sudo if needed
+    if [[ $EUID -ne 0 ]]; then
+        sudo mkdir -p -- "$dest_dir"
+    else
+        mkdir -p -- "$dest_dir"
+    fi
 
     echo -e "${GREEN}$(get_string "webcopier_start") $target_domain${NC}"
     echo -e "${BLUE}Downloading frontend and assets into:${NC} $dest_dir${NC}"
 
-
     try_https() {
-        wget --mirror --convert-links --adjust-extension --page-requisites --no-parent \
-            --wait=0.2 --random-wait --limit-rate=200k --retry-connrefused --tries=3 \
-            --timeout=20 --restrict-file-names=windows -e robots=off "https://$target_domain" -P "$dest_dir"
-    }
-    try_http() {
-        wget --mirror --convert-links --adjust-extension --page-requisites --no-parent \
-            --wait=0.2 --random-wait --limit-rate=200k --retry-connrefused --tries=3 \
-            --timeout=20 --restrict-file-names=windows -e robots=off "http://$target_domain" -P "$dest_dir"
+        if [[ $EUID -ne 0 ]]; then
+            sudo wget --mirror --convert-links --adjust-extension --page-requisites --no-parent \
+                --wait=0.2 --random-wait --limit-rate=200k --retry-connrefused --tries=3 \
+                --timeout=20 --restrict-file-names=windows -e robots=off "https://$target_domain" -P "$dest_dir"
+        else
+            wget --mirror --convert-links --adjust-extension --page-requisites --no-parent \
+                --wait=0.2 --random-wait --limit-rate=200k --retry-connrefused --tries=3 \
+                --timeout=20 --restrict-file-names=windows -e robots=off "https://$target_domain" -P "$dest_dir"
+        fi
     }
 
-    # try HTTPS first
+    try_http() {
+        if [[ $EUID -ne 0 ]]; then
+            sudo wget --mirror --convert-links --adjust-extension --page-requisites --no-parent \
+                --wait=0.2 --random-wait --limit-rate=200k --retry-connrefused --tries=3 \
+                --timeout=20 --restrict-file-names=windows -e robots=off "http://$target_domain" -P "$dest_dir"
+        else
+            wget --mirror --convert-links --adjust-extension --page-requisites --no-parent \
+                --wait=0.2 --random-wait --limit-rate=200k --retry-connrefused --tries=3 \
+                --timeout=20 --restrict-file-names=windows -e robots=off "http://$target_domain" -P "$dest_dir"
+        fi
+    }
+
     if try_https; then
         echo -e "${GREEN}HTTPS download finished.${NC}"
     else
