@@ -549,7 +549,7 @@ main_menu() {
                 ;;
             4)
                 echo -e "${GREEN}Starting MITM...${NC}"
-                sudo bash "$(dirname "$0")/tools/dns.sh"
+                bash "$(dirname "$0")/tools/dns.sh"
                 read -e -p "$(whoami)-Butcher>_ Press Enter to continue... " dummy
                 ;;
             5) web_copier ;;
@@ -678,17 +678,10 @@ main_menu() {
 
 
 
-check_permissions() {
-    if [[ $EUID -eq 0 ]]; then
-        echo -e "${GREEN}Running with root privileges${NC}"
-    else
-        echo -e "${YELLOW}Running without root privileges${NC}"
-    fi
-    sleep 1
-}
+
 
 main() {
-    check_permissions
+    
     select_language
     main_menu
 }
