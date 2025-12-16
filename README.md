@@ -77,63 +77,12 @@ git clone https://github.com/TheDeepOpc/butcher.git
 cd butcher
 chmod +x setup.sh
 ./setup.sh
-./physical.sh --version
 ```
 
-**Windows:**
 
-```powershell
-git clone https://github.com/TheDeepOpc/butcher.git
-cd butcher
-.\setup.bat
-.\physical.bat --version
-```
 
-### Manual Installation
 
-```bash
-pip install -r requirements.txt
-cp settings/config.example.conf settings/config.conf
-nano settings/config.conf
-./setup.sh --manual
-```
 
-## Usage
-
-### Basic Commands
-
-```bash
-# Display help menu
-./physical.sh --help
-
-# Run in interactive mode
-./physical.sh --interactive
-
-# Specify target (authorized only!)
-./physical.sh --target <authorized-system>
-
-# Use specific module
-./physical.sh --module pdf-robber
-
-# Run with custom config
-./physical.sh --config settings/custom.conf
-```
-
-### PDF Analysis
-
-```bash
-# Analyze PDF document
-./physical.sh --module pdf-robber --file document.pdf
-
-# Extract embedded files
-./physical.sh --module pdf-robber --extract --file document.pdf
-
-# Analyze JavaScript in PDF
-./physical.sh --module pdf-robber --js-analysis --file document.pdf
-
-# Batch processing
-./physical.sh --module pdf-robber --batch --directory ./pdf_samples/
-```
 
 ### Custom Modules
 
