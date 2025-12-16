@@ -1,54 +1,36 @@
-# 🔪 Butcher
+# Butcher
 
-<div align="center">
+Multi-Platform Security Research Toolkit for educational and authorized security testing purposes only.
 
-![Version](https://img.shields.io/badge/version-2.0-red.svg)
-![Platform](https://img.shields.io/badge/platform-Linux%20%7C%20macOS%20%7C%20Windows-blue.svg)
-![License](https://img.shields.io/badge/license-Educational-green.svg)
-
-**Multi-Platform Security Research Toolkit**
-
-*For educational and authorized security testing purposes only*
-
-[Features](#-features) • [Installation](#-installation) • [Usage](#-usage) • [Architecture](#-architecture) • [Disclaimer](#-disclaimer)
-
-</div>
-
----
-
-## ⚠️ DISCLAIMER
+## DISCLAIMER
 
 **THIS TOOL IS FOR EDUCATIONAL AND AUTHORIZED SECURITY TESTING ONLY**
 
-- ✅ Use only in authorized penetration testing environments
-- ✅ Only on systems you own or have explicit written permission to test
-- ❌ Unauthorized access to computer systems is illegal
-- ❌ The authors are NOT responsible for any misuse or damage
-- ❌ Using this tool against systems without permission is a CRIME
+- Use only in authorized penetration testing environments
+- Only on systems you own or have explicit written permission to test
+- Unauthorized access to computer systems is illegal
+- The authors are NOT responsible for any misuse or damage
+- Using this tool against systems without permission is a CRIME
 
-**By using this tool, you agree to use it responsibly and legally.**
+By using this tool, you agree to use it responsibly and legally.
 
----
-
-## 📋 Overview
+## Overview
 
 Butcher is a comprehensive security research toolkit designed for penetration testers and security researchers. It provides various capabilities for authorized security assessments across multiple platforms including Linux, macOS, and Windows environments.
 
-### 🎯 Key Capabilities
+### Key Capabilities
 
-- **Cross-Platform Support**: Native support for Linux, macOS, and Windows
-- **PDF Analysis**: Advanced PDF document processing and analysis
-- **Modular Architecture**: Extensible plugin-based design
-- **Automated Setup**: One-command installation and configuration
-- **Educational Focus**: Built for learning and security research
+- Cross-Platform Support: Native support for Linux, macOS, and Windows
+- PDF Analysis: Advanced PDF document processing and analysis
+- Modular Architecture: Extensible plugin-based design
+- Automated Setup: One-command installation and configuration
+- Educational Focus: Built for learning and security research
 
----
-
-## 🚀 Features
+## Features
 
 ### Core Modules
 
-#### 📄 PDF Robber
+**PDF Robber**
 Advanced PDF document analysis and extraction toolkit:
 - Document metadata extraction
 - Embedded file detection and extraction
@@ -56,7 +38,7 @@ Advanced PDF document analysis and extraction toolkit:
 - Form data extraction
 - Password-protected PDF handling
 
-#### 🛠️ Tools Suite
+**Tools Suite**
 Comprehensive collection of security utilities:
 - Network reconnaissance tools
 - Protocol analyzers
@@ -64,7 +46,7 @@ Comprehensive collection of security utilities:
 - System enumeration capabilities
 - Custom payload generators
 
-#### ⚙️ Settings Module
+**Settings Module**
 Flexible configuration system:
 - Per-platform customization
 - Profile management
@@ -72,80 +54,51 @@ Flexible configuration system:
 - Logging configuration
 - Environment variables
 
----
-
-## 📦 Installation
+## Installation
 
 ### Prerequisites
 
 **Linux / macOS:**
-```bash
-# Required packages
 - bash >= 4.0
 - python3 >= 3.8
 - git
-```
 
 **Windows:**
-```powershell
-# Required software
 - Windows 10/11
 - PowerShell 5.1+
 - Python 3.8+
-```
 
 ### Quick Start
 
-#### Linux / macOS
+**Linux / macOS:**
 
 ```bash
-# Clone the repository
 git clone https://github.com/TheDeepOpc/butcher.git
 cd butcher
-
-# Make setup script executable
 chmod +x setup.sh
-
-# Run automated setup
 ./setup.sh
-
-# Verify installation
 ./physical.sh --version
 ```
 
-#### Windows
+**Windows:**
 
 ```powershell
-# Clone the repository
 git clone https://github.com/TheDeepOpc/butcher.git
 cd butcher
-
-# Run setup
 .\setup.bat
-
-# Verify installation
 .\physical.bat --version
 ```
 
 ### Manual Installation
 
 ```bash
-# Install Python dependencies
 pip install -r requirements.txt
-
-# Configure environment
 cp settings/config.example.conf settings/config.conf
-
-# Edit configuration
 nano settings/config.conf
-
-# Initialize toolkit
 ./setup.sh --manual
 ```
 
----
-
-## 🎮 Usage
+## Usage
 
 ### Basic Commands
 
@@ -166,9 +119,7 @@ nano settings/config.conf
 ./physical.sh --config settings/custom.conf
 ```
 
-### Advanced Usage
-
-#### PDF Analysis
+### PDF Analysis
 
 ```bash
 # Analyze PDF document
@@ -184,7 +135,7 @@ nano settings/config.conf
 ./physical.sh --module pdf-robber --batch --directory ./pdf_samples/
 ```
 
-#### Custom Modules
+### Custom Modules
 
 ```bash
 # List available modules
@@ -197,7 +148,7 @@ nano settings/config.conf
 ./physical.sh --tools "recon,enum,extract"
 ```
 
-#### Output Options
+### Output Options
 
 ```bash
 # Save results to file
@@ -213,9 +164,7 @@ nano settings/config.conf
 ./physical.sh --silent --log-file operation.log
 ```
 
----
-
-## 🏗️ Architecture
+## Architecture
 
 ```
 butcher/
@@ -258,9 +207,7 @@ class CustomModule:
         pass
 ```
 
----
-
-## 🔧 Configuration
+## Configuration
 
 ### Basic Configuration
 
@@ -291,35 +238,25 @@ export BUTCHER_CONFIG=/path/to/config.conf
 export BUTCHER_LOG_LEVEL=DEBUG
 ```
 
----
-
-## 📚 Documentation
-
-### Available Modules
+## Available Modules
 
 | Module | Description | Status |
 |--------|-------------|--------|
-| `pdf-robber` | PDF analysis and extraction | ✅ Active |
-| `network-recon` | Network reconnaissance | ✅ Active |
-| `system-enum` | System enumeration | ✅ Active |
-| `data-extract` | Data extraction utilities | ✅ Active |
-| `payload-gen` | Payload generator | 🚧 Beta |
+| pdf-robber | PDF analysis and extraction | Active |
+| network-recon | Network reconnaissance | Active |
+| system-enum | System enumeration | Active |
+| data-extract | Data extraction utilities | Active |
+| payload-gen | Payload generator | Beta |
 
-### Language Support
-
-The toolkit supports multiple languages for output and reporting. See `languages.txt` for the full list.
-
----
-
-## 🤝 Contributing
+## Contributing
 
 Contributions are welcome! Please follow these guidelines:
 
-1. **Fork the repository**
-2. **Create a feature branch**: `git checkout -b feature/AmazingFeature`
-3. **Commit your changes**: `git commit -m 'Add some AmazingFeature'`
-4. **Push to the branch**: `git push origin feature/AmazingFeature`
-5. **Open a Pull Request**
+1. Fork the repository
+2. Create a feature branch: `git checkout -b feature/AmazingFeature`
+3. Commit your changes: `git commit -m 'Add some AmazingFeature'`
+4. Push to the branch: `git push origin feature/AmazingFeature`
+5. Open a Pull Request
 
 ### Code Standards
 
@@ -329,52 +266,43 @@ Contributions are welcome! Please follow these guidelines:
 - Update documentation
 - Test thoroughly before submitting
 
----
-
-## 🐛 Troubleshooting
+## Troubleshooting
 
 ### Common Issues
 
-**Issue**: Setup script fails
+**Setup script fails:**
 ```bash
-# Solution: Check permissions
 chmod +x setup.sh
 sudo ./setup.sh
 ```
 
-**Issue**: Module not found
+**Module not found:**
 ```bash
-# Solution: Verify installation
 ./physical.sh --list-modules
 pip install -r requirements.txt
 ```
 
-**Issue**: Permission denied
+**Permission denied:**
 ```bash
-# Solution: Run with appropriate privileges
 # For authorized testing only!
 sudo ./physical.sh
 ```
 
----
+## Project Status
 
-## 📊 Project Status
+- Core framework: Complete
+- PDF Robber module: Active
+- Cross-platform support: Stable
+- Additional modules: In development
+- Documentation: Ongoing updates
 
-- ✅ Core framework: Complete
-- ✅ PDF Robber module: Active
-- ✅ Cross-platform support: Stable
-- 🚧 Additional modules: In development
-- 📝 Documentation: Ongoing updates
-
----
-
-## 🔐 Security Notice
+## Security Notice
 
 This tool is intended for:
-- **Authorized penetration testing**
-- **Security research in controlled environments**
-- **Educational purposes in cybersecurity training**
-- **Vulnerability assessment with permission**
+- Authorized penetration testing
+- Security research in controlled environments
+- Educational purposes in cybersecurity training
+- Vulnerability assessment with permission
 
 ### Legal Compliance
 
@@ -384,11 +312,9 @@ This tool is intended for:
 - Respect privacy and confidentiality
 - Document all activities for audit purposes
 
----
+## License
 
-## 📜 License
-
-This project is licensed for **Educational Purposes Only**.
+This project is licensed for Educational Purposes Only.
 
 ```
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
@@ -399,26 +325,20 @@ ANY CLAIM, DAMAGES OR OTHER LIABILITY ARISING FROM THE USE OF
 THE SOFTWARE.
 ```
 
----
-
-## 👤 Author
+## Author
 
 **TheDeepOpc**
 
-- GitHub: [@TheDeepOpc](https://github.com/TheDeepOpc)
-- Repository: [butcher](https://github.com/TheDeepOpc/butcher)
+- GitHub: @TheDeepOpc
+- Repository: https://github.com/TheDeepOpc/butcher
 
----
+## Support
 
-## 📞 Support
+- Issues: https://github.com/TheDeepOpc/butcher/issues
+- Discussions: https://github.com/TheDeepOpc/butcher/discussions
+- Wiki: https://github.com/TheDeepOpc/butcher/wiki
 
-- 📧 Issues: [GitHub Issues](https://github.com/TheDeepOpc/butcher/issues)
-- 💬 Discussions: [GitHub Discussions](https://github.com/TheDeepOpc/butcher/discussions)
-- 📖 Wiki: [Project Wiki](https://github.com/TheDeepOpc/butcher/wiki)
-
----
-
-## 🙏 Acknowledgments
+## Acknowledgments
 
 - Security research community
 - Open-source contributors
@@ -427,12 +347,4 @@ THE SOFTWARE.
 
 ---
 
-<div align="center">
-
-**Remember: With great power comes great responsibility.**
-
-Use this tool ethically and legally.
-
-⭐ Star this repo if you find it useful!
-
-</div>
+**Remember: With great power comes great responsibility. Use this tool ethically and legally.**
